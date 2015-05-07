@@ -1,0 +1,23 @@
+{
+  "name": "hapijsrest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/lab/bin/lab -c"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "^8.4.0",
+    "joi": "^6.4.1",
+    "mongodb": "^1.4.36",
+    "mongoskin": "^1.4.13"
+  },
+  "devDependencies": {
+    "chai": "^2.3.0",
+    "code": "^1.4.0",
+    "lab": "^5.8.0",
+    "mocha": "^2.2.4"
+  }
+}
