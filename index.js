@@ -70,7 +70,11 @@ server.route({
 	path	 : '/quotes/{id}',
 	handler: function(req, reply) {
 		db.quotes.getByIdAsync(req.params.id).then(function(res) {
-			reply(res);
+			if (res) {
+				reply(res)
+			} else {
+				reply([]);	
+			}
 		}, function(err) {
 			reply(err);
 		});
