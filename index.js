@@ -30,6 +30,8 @@ server.route({
 	handler: function(request, reply) {
 		db.quotes.getAllQuotesAsync().then(function(result) {
 			reply(result);
+		}, function(err) {
+			reply(err);
 		});
 	},
 	config: {
@@ -45,6 +47,8 @@ server.route({
 	handler: function(req, reply) {
 		db.quotes.createQuoteAsync(req.payload).then(function(res) {
 			reply(res);
+		}, function(err) {
+			reply(err);
 		});
 
 	},
@@ -67,6 +71,8 @@ server.route({
 	handler: function(req, reply) {
 		db.quotes.getByIdAsync(req.params.id).then(function(res) {
 			reply(res);
+		}, function(err) {
+			reply(err);
 		});
 
 	},
@@ -89,6 +95,8 @@ server.route({
 	handler: function(req, reply) {
 		db.quotes.updateWithIdAsync(req.params.id, req.payload).then(function(res) {
 			reply(res);
+		}, function(err) {
+			reply(err);
 		});
 	},
 	config: {
@@ -114,6 +122,8 @@ server.route({
 	handler: function(req, reply) {
 		db.quotes.deleteByIdAsync(req.params.id).then(function(res) {
 			reply(res);
+		}, function(err) {
+			reply(err);
 		});
 	},
 	config: {
