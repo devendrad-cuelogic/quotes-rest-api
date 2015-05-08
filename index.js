@@ -1,41 +1,81 @@
 var Hapi = require("hapi");
 var server = new Hapi.Server();
 var Joi = require('joi');
-// var db = require('./data/db');
-var mongoskin = require('mongoskin');
-var	db = mongoskin.db('mongodb://localhost:27017/quotesdb', {safe:true});
+var db = require('./data/db');
 
-db.ObjectID = mongoskin.ObjectID;
+server.connection({
+	host: "localhost",
+	port: 9000
+})
 
-// console.log(db);
-server.connection({host:"localhost",port:9000})
-
-server.route({ 
-	method: 'GET', 
-	path: '/', 
+server.route({
+	method: 'GET',
+	path: '/quotes',
 	handler: function(request, reply) {
-		// console.log("I AM HERE");
-		db.collection('quotes').find({},{limit:10, sort: [['_id',-1]]}).toArray(function(e, results){
-    		if (e) throw e;
-    		reply(results);
-  		});
+		db.quotes.getAllQuotes(reply);
 	}
 });
 
 server.route({
 	method: 'POST',
 	path: '/quotes',
-	handler: function (req,reply) {
-		db.collection('quotes').insert(req.payload,{},function(e, results){
-    		if (e) throw e;
-    		reply(results);
-  		});
+	handler: function(req, reply) {
+		db.quotes.createQuote(req.payload, reply);
+
 	},
-	config : {
-		validate : {
-			payload : {
-				name : Joi.string().required(),
-				quote_text : Joi.string().required()
+	config: {
+		validate: {
+			payload: {
+				name: Joi.string().required(),
+				quote_text: Joi.string().required()
+			}
+		}
+	}
+});
+
+server.route({
+	method: 'GET',
+	path: '/quotes/{id}',
+	handler: function(req, reply) {
+		db.quotes.getById(req.params.id, reply);
+
+	},
+	config: {
+		validate: {
+			params: {
+				id: Joi.string().required()
+			}
+		}
+	}
+});
+
+
+server.route({
+	method: 'PUT',
+	path: '/quotes/{id}',
+	handler: function(req, reply) {
+		db.quotes.updateWithId(req.params.id, req.payload, reply);
+	},
+	config: {
+		validate: {
+			params: {
+				id: Joi.string().required()
+			}
+		}
+	}
+});
+
+
+server.route({
+	method: 'DELETE',
+	path: '/quotes/{id}',
+	handler: function(req, reply) {
+		db.quotes.deleteById(req.params.id, reply);
+	},
+	config: {
+		validate: {
+			params: {
+				id: Joi.string().required()
 			}
 		}
 	}
