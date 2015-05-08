@@ -8,11 +8,32 @@ server.connection({
 	port: 9000
 })
 
+var pack = require('../package'),
+	swaggerOptions = {
+		apiVersion: pack.version
+	};
+
+server.register({
+	register: require('hapi-swagger'),
+	options: swaggerOptions
+}, function(err) {
+	if (err) {
+		server.log(['error'], 'hapi-swagger load error: ' + err)
+	} else {
+		server.log(['start'], 'hapi-swagger interface loaded')
+	}
+});
+
 server.route({
 	method: 'GET',
 	path: '/quotes',
 	handler: function(request, reply) {
 		db.quotes.getAllQuotes(reply);
+	},
+	config: {
+		description: 'Get quotes',
+		notes: 'Returns a list of quotes',
+		tags: ['api'],
 	}
 });
 
@@ -24,6 +45,9 @@ server.route({
 
 	},
 	config: {
+		description: 'Craete a quote',
+		notes: 'Craetes a quote whose params are posted',
+		tags: ['api'],
 		validate: {
 			payload: {
 				name: Joi.string().required(),
@@ -41,6 +65,9 @@ server.route({
 
 	},
 	config: {
+		description: 'Get a quote',
+		notes: 'Returns a quote of an id passed in path',
+		tags: ['api'],
 		validate: {
 			params: {
 				id: Joi.string().required()
@@ -57,9 +84,16 @@ server.route({
 		db.quotes.updateWithId(req.params.id, req.payload, reply);
 	},
 	config: {
+		description: 'Update quote',
+		notes: 'Upadtes quote object of provided id in path',
+		tags: ['api'],
 		validate: {
 			params: {
 				id: Joi.string().required()
+			},
+			payload: {
+				name: Joi.string().min(4).max(100),
+				quotes_text: Joi.string()	.min(10).max(255)
 			}
 		}
 	}
@@ -73,6 +107,9 @@ server.route({
 		db.quotes.deleteById(req.params.id, reply);
 	},
 	config: {
+		description: 'Delete a quote',
+		notes: 'Deletes a quote whose id is passed in path',
+		tags: ['api'],
 		validate: {
 			params: {
 				id: Joi.string().required()
@@ -80,6 +117,8 @@ server.route({
 		}
 	}
 });
+
+
 
 server.start();
 
