@@ -1,18 +1,13 @@
-var mongoskin = require('mongoskin');
-var db = mongoskin.db('mongodb://localhost:27017/quotesdb', {
-	safe: true
-});
-
-var Promise = require('bluebird');
+var mongoskin 	= require('mongoskin')
+	, db 					= mongoskin.db('mongodb://localhost:27017/quotesdb', { safe : true })
+	, Promise 		= require('bluebird');
 
 db.ObjectID = mongoskin.ObjectID;
+
 db.bind('quotes').bind({
 	getAllQuotes: function getAllQuotes(callback) {
 		this.find({}, {
-			limit: 10,
-			sort: [
-				['_id', -1]
-			]
+			limit: 10
 		}).toArray(callback);
 	},
 	getById: function getById(id, callback) {
