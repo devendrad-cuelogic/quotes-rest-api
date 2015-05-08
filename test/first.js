@@ -5,6 +5,7 @@ var server = require("../index.js");
 var expect = require('chai').expect;
 
 describe("Describes Quotes", function() {
+
   it("Testing for list of quotes", function(done) {
     var options = {
       method: "GET",
@@ -22,7 +23,7 @@ describe("Describes Quotes", function() {
   it('Testing for post', function(done) {
     var data = {
       name: 'DevD',
-      quote_text: "Anothe famous quote"
+      quote_text: "Another famous quote bye me"
     }
     var options = {
       method: "POST",
@@ -66,7 +67,7 @@ describe("Describes Quotes", function() {
 
 
   it('Deletes a quotes with an id', function(done) {
-    var id = "554c518c1db0a2ea68a1ffb3";
+    var id = "554c5855b8d7e9af6e5f7abd";
     var options = {
       method: "DELETE",
       url: '/quotes/' + id
