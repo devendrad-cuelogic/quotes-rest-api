@@ -8,7 +8,7 @@ server.connection({
 	port: 9000
 })
 
-var pack = require('../package'),
+var pack = require('./package'),
 	swaggerOptions = {
 		apiVersion: pack.version
 	};
@@ -28,7 +28,9 @@ server.route({
 	method: 'GET',
 	path: '/quotes',
 	handler: function(request, reply) {
-		db.quotes.getAllQuotes(reply);
+		db.quotes.getAllQuotesAsync().then(function(result) {
+			reply(result);
+		});
 	},
 	config: {
 		description: 'Get quotes',
@@ -41,7 +43,9 @@ server.route({
 	method: 'POST',
 	path: '/quotes',
 	handler: function(req, reply) {
-		db.quotes.createQuote(req.payload, reply);
+		db.quotes.createQuoteAsync(req.payload).then(function(res) {
+			reply(res);
+		});
 
 	},
 	config: {
@@ -61,7 +65,9 @@ server.route({
 	method: 'GET',
 	path: '/quotes/{id}',
 	handler: function(req, reply) {
-		db.quotes.getById(req.params.id, reply);
+		db.quotes.getByIdAsync(req.params.id).then(function(res) {
+			reply(res);
+		});
 
 	},
 	config: {
@@ -81,7 +87,9 @@ server.route({
 	method: 'PUT',
 	path: '/quotes/{id}',
 	handler: function(req, reply) {
-		db.quotes.updateWithId(req.params.id, req.payload, reply);
+		db.quotes.updateWithIdAsync(req.params.id, req.payload).then(function(res) {
+			reply(res);
+		});
 	},
 	config: {
 		description: 'Update quote',
@@ -93,7 +101,7 @@ server.route({
 			},
 			payload: {
 				name: Joi.string().min(4).max(100),
-				quotes_text: Joi.string()	.min(10).max(255)
+				quotes_text: Joi.string().min(10).max(255)
 			}
 		}
 	}
@@ -104,7 +112,9 @@ server.route({
 	method: 'DELETE',
 	path: '/quotes/{id}',
 	handler: function(req, reply) {
-		db.quotes.deleteById(req.params.id, reply);
+		db.quotes.deleteByIdAsync(req.params.id).then(function(res) {
+			reply(res);
+		});
 	},
 	config: {
 		description: 'Delete a quote',

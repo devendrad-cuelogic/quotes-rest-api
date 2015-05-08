@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^2.9.25",
     "hapi": "^8.4.0",
     "hapi-swagger": "^0.7.3",
     "joi": "^6.4.1",
