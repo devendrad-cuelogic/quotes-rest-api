@@ -73,7 +73,7 @@ server.route({
 			if (res) {
 				reply(res)
 			} else {
-				reply([]);	
+				reply([]);
 			}
 		}, function(err) {
 			reply(err);
@@ -147,5 +147,5 @@ server.route({
 server.start();
 
 console.log('hello server http://localhost:9000');
-
+console.log("changes");
 module.exports = server;
