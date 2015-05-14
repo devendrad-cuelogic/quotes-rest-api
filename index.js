@@ -147,5 +147,5 @@ server.route({
 server.start();
 
 console.log('hello server http://localhost:9000');
-console.log("changes");
+
 module.exports = server;
